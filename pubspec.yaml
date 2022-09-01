@@ -26,7 +26,6 @@ dependencies:
   dio: ^4.0.6
   smooth_star_rating_nsafe: ^1.0.0+1
   galleryimage: ^1.1.0
-  flutter_launcher_icons: ^0.9.0
   flutter:
     sdk: flutter
 
@@ -38,11 +37,13 @@ dev_dependencies:
     sdk: flutter
 
   flutter_lints: ^1.0.0
+  flutter_launcher_icons: "^0.10.0"
 
 flutter_icons:
   android: "launcher_icon"
   ios: true
   image_path: "assets/icons/pharmacy.png"
+  image_path_ios: "assets/icons/logo_devdawa.png"
 
 flutter:
   uses-material-design: true
@@ -54,3 +55,4 @@ flutter:
     - assets/images/lipa.png
     - assets/icons/order.png
     - assets/icons/presc.png
+    - assets/icons/logo_devdawa.png
