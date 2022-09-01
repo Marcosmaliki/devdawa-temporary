@@ -1,0 +1,56 @@
+name: devdawa
+description: Devsmart
+
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.16.0 <3.0.0"
+
+dependencies:
+  get: ^4.6.1
+  http: ^0.13.4
+  animated_splash_screen: ^1.2.0
+  google_fonts: ^2.3.2
+  icon_loading_button: ^1.0.1
+  page_transition: ^2.0.5
+  intl_phone_field: ^3.1.0
+  badges: ^2.0.2
+  infinite_carousel: ^1.0.2
+  flutter_carousel_slider: ^1.0.8
+  shared_preferences: ^2.0.15
+  modal_bottom_sheet: ^2.0.1
+  flutter_dropdown: ^1.0.0+hotfix.1
+  file_picker: ^4.6.1
+  dio: ^4.0.6
+  smooth_star_rating_nsafe: ^1.0.0+1
+  galleryimage: ^1.1.0
+  flutter_launcher_icons: ^0.9.0
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  intl: ^0.17.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^1.0.0
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/pharmacy.png"
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/icons/drugs.png
+    - assets/images/login_mobile.jpg
+    - assets/icons/pharmacy.png
+    - assets/images/lipa.png
+    - assets/icons/order.png
+    - assets/icons/presc.png
