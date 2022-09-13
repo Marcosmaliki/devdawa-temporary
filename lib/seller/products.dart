@@ -223,6 +223,7 @@ class _BusinessProductsState extends State<BusinessProducts> {
                   child: Padding(
                     padding: EdgeInsets.only(top: 10),
                     child: ListView.builder(
+                      physics: const AlwaysScrollableScrollPhysics(),
                       itemCount: prods.length,
                       itemBuilder: (_, index) {
                         return Padding(
@@ -309,6 +310,7 @@ class _BusinessProductsState extends State<BusinessProducts> {
               //margin: EdgeInsets.only(left: 0, right: 20),
               decoration: BoxDecoration(color: AppColors.grey),
               child: ListView.builder(
+                physics: const AlwaysScrollableScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 itemCount: product_images.length,
                 itemBuilder: (_, index) {
@@ -433,7 +435,7 @@ class _BusinessProductsState extends State<BusinessProducts> {
               decoration: BoxDecoration(
                   color: AppColors.green,
                   borderRadius: BorderRadius.circular(5)),
-              child: FlatButton(
+              child: TextButton(
                   onPressed: () {
                     Navigator.push(
                       context,

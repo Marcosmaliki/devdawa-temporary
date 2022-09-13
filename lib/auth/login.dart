@@ -131,10 +131,7 @@ class _LoginState extends State<Login> {
     var request_result = await BaseClient.postRequest(
         base_client.base_url + "/user/auth/login", data);
 
-    /*print(request_result);
-    print(request_result["data"]["user"]["roles"].substring(2, 5));*/
-
-    if (request_result["status"] == "offline") {
+    /*if (request_result["status"] == "offline") {
       _loadingBtnController.reset();
       _showSnackBar("No internet connection", Colors.red, Icons.error,
           Colors.white, Colors.white);
@@ -143,8 +140,36 @@ class _LoginState extends State<Login> {
         if (request_result["data"]["success"]) {
           _loadingBtnController.reset();
 
-          if (request_result["data"]["user"]["roles"].substring(2, 5) ==
-              "sel") {
+          if (request_result["data"]["user"]["roles"]
+              .toString()
+              .contains("deliverer")) {
+
+            prefs.setString("type", "deliverer").then((value) => {
+                  prefs.setBool("logged_in", true).then((value) {
+                    prefs
+                        .setString(
+                            "client_id",
+                            request_result["data"]["user"]["user_deliverer"]
+                                ["id"])
+                        .then((value) {
+                      prefs
+                          .setString(
+                              "token", request_result["data"]["access_token"])
+                          .then((value) {
+                        prefs
+                            .setString("user_uid",
+                                request_result["data"]["user"]["id"])
+                            .then((value) => _goDeliveryHome(
+                                request_result["data"]["user"],
+                                request_result["data"]["access_token"]));
+                      });
+                    });
+                  })
+                });
+          } else if (request_result["data"]["user"]["roles"]
+              .toString()
+              .contains("seller")) {
+
             prefs.setString("type", "seller").then((value) => {
                   prefs.setBool("logged_in", true).then((value) {
                     prefs
@@ -165,8 +190,10 @@ class _LoginState extends State<Login> {
                     });
                   })
                 });
-          } else if (request_result["data"]["user"]["roles"].substring(2, 5) ==
-              "cli") {
+          } else if (request_result["data"]["user"]["roles"]
+              .toString()
+              .contains("client")) {
+
             prefs.setString("type", "client").then((value) => {
                   prefs.setBool("logged_in", true).then((value) {
                     prefs
@@ -187,8 +214,85 @@ class _LoginState extends State<Login> {
                     });
                   })
                 });
-          } else if (request_result["data"]["user"]["roles"].substring(2, 5) ==
-              "del") {
+          }
+        } else {
+          _showSnackBar(request_result["data"]["message"], Colors.red,
+              Icons.error, Colors.white, Colors.white);
+        }
+      } else {
+        _loadingBtnController.error();
+        Future.delayed(const Duration(seconds: 1), () {
+          _loadingBtnController.reset();
+          _showSnackBar(request_result["data"]["message"], Colors.red,
+              Icons.error, Colors.white, Colors.white);
+        });
+      }
+    }*/
+
+    if (request_result["status"] == "offline") {
+      _loadingBtnController.reset();
+      _showSnackBar("No internet connection", Colors.red, Icons.error,
+          Colors.white, Colors.white);
+    } else {
+      if (request_result["response"] == 200) {
+        if (request_result["data"]["success"]) {
+          _loadingBtnController.reset();
+
+          if (request_result["data"]["user"]["roles"]
+              .toString()
+              .contains("client")) {
+            /*else if (request_result["data"]["user"]["roles"].substring(2, 5) ==
+              "cli") {*/
+            prefs.setString("type", "client").then((value) => {
+                  prefs.setBool("logged_in", true).then((value) {
+                    prefs
+                        .setString("client_id",
+                            request_result["data"]["user"]["user_client"]["id"])
+                        .then((value) {
+                      prefs
+                          .setString(
+                              "token", request_result["data"]["access_token"])
+                          .then((value) {
+                        prefs
+                            .setString("user_uid",
+                                request_result["data"]["user"]["id"])
+                            .then((value) => _goHome(
+                                request_result["data"]["user"],
+                                request_result["data"]["access_token"]));
+                      });
+                    });
+                  })
+                });
+          } else if (request_result["data"]["user"]["roles"]
+              .toString()
+              .contains("seller")) {
+            /*if (request_result["data"]["user"]["roles"].substring(2, 5) ==
+              "sel") {*/
+            prefs.setString("type", "seller").then((value) => {
+                  prefs.setBool("logged_in", true).then((value) {
+                    prefs
+                        .setString("client_id",
+                            request_result["data"]["user"]["user_seller"]["id"])
+                        .then((value) {
+                      prefs
+                          .setString(
+                              "token", request_result["data"]["access_token"])
+                          .then((value) {
+                        prefs
+                            .setString("user_uid",
+                                request_result["data"]["user"]["id"])
+                            .then((value) => _goSellerHome(
+                                request_result["data"]["user"],
+                                request_result["data"]["access_token"]));
+                      });
+                    });
+                  })
+                });
+          } else if (request_result["data"]["user"]["roles"]
+              .toString()
+              .contains("deliverer")) {
+            /*else if (request_result["data"]["user"]["roles"].substring(2, 5) ==
+              "del") {*/
             prefs.setString("type", "deliverer").then((value) => {
                   prefs.setBool("logged_in", true).then((value) {
                     prefs

@@ -471,8 +471,6 @@ class _SignUpState extends State<SignUp> {
       "username": username,
       "surname": surname,
       "othernames": othername,
-      /*"idNo": "657478474",
-      "kraPin": "AI878N485748N74",*/
       "email": email,
       "phone": "254" + phone.substring(1, phone.length),
       "role": "client",
@@ -494,21 +492,21 @@ class _SignUpState extends State<SignUp> {
             Icons.error, Colors.white, Colors.white);
       }
     } else {
-      _showSnackBar("Something went wrong", Colors.amber, Icons.info,
-          Colors.black, Colors.black);
-      _loadingBtnController.error();
-      Future.delayed(const Duration(seconds: 1), () {
-        _loadingBtnController.reset();
-      });
+      if (request_result["data"]["success"] == false) {
+        _showSnackBar(request_result["data"]["message"], Colors.amber,
+            Icons.info, Colors.black, Colors.black);
+        _loadingBtnController.error();
+        Future.delayed(const Duration(seconds: 1), () {
+          _loadingBtnController.reset();
+        });
+      } else {
+        _showSnackBar("Server error, try later", Colors.amber, Icons.info,
+            Colors.black, Colors.black);
+        _loadingBtnController.error();
+        Future.delayed(const Duration(seconds: 1), () {
+          _loadingBtnController.reset();
+        });
+      }
     }
-
-    //print(request_result["data"]);
-
-    /*Future.delayed(const Duration(seconds: 1), () {
-      _loadingBtnController.error();
-      Future.delayed(const Duration(seconds: 1), () {
-        _loadingBtnController.reset();
-      });
-    });*/
   }
 }

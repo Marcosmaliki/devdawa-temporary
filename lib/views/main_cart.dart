@@ -67,22 +67,24 @@ class _MainCartState extends State<MainCart> {
   _getCart() async {
     final prefs = await SharedPreferences.getInstance();
     var request_result = await BaseClient.getRequestAuth(
-        base_client.base_url + "/cart/all", prefs.getString("token"));
+        base_client.base_url +
+            "/cart/all?clientId=${prefs.getString("client_id")}",
+        prefs.getString("token"));
 
     for (var item in request_result["data"]["data"]["data"]) {
       setState(() {
-        _delivery_charges += sub_total += (int.parse(
+        /*_delivery_charges += sub_total += (int.parse(
                 item["cart_product"]["product_pricing"]["price"].toString()) *
-            int.parse(item["number"].toString()));
+            int.parse(item["number"].toString()));*/
         total_charge += (int.parse(
                 item["cart_product"]["product_pricing"]["price"].toString()) *
             int.parse(item["number"].toString()));
-        total_charge += _delivery_charges;
+        /*total_charge += _delivery_charges;
 
         sub_total += (int.parse(
             item["cart_product"]["product_pricing"]["price"].toString()));
         total_charge += (int.parse(
-            item["cart_product"]["product_pricing"]["price"].toString()));
+            item["cart_product"]["product_pricing"]["price"].toString()));*/
         total_charge += _delivery_charges;
       });
     }
@@ -173,8 +175,10 @@ class _MainCartState extends State<MainCart> {
                                           fontWeight: FontWeight.w700,
                                           fontSize: 15),
                                     ),
-                                    FlatButton(
-                                      color: AppColors.red,
+                                    TextButton(
+                                      style: TextButton.styleFrom(
+                                        backgroundColor: AppColors.red,
+                                      ),
                                       child: Text("Remove"),
                                       onPressed: () {
                                         _removeItem(id.toString());
@@ -229,8 +233,10 @@ class _MainCartState extends State<MainCart> {
                                         ),
                                       ),
                                     ),
-                                    FlatButton(
-                                      color: AppColors.green_shade,
+                                    TextButton(
+                                      style: TextButton.styleFrom(
+                                        backgroundColor: AppColors.green_shade,
+                                      ),
                                       child: !_submitting_change
                                           ? Text("Submit Change")
                                           : Text("Processing..."),
@@ -312,7 +318,7 @@ class _MainCartState extends State<MainCart> {
               height: 5,
             ),
             Text(
-              "Amount: Ksh. ${amount.toString()}",
+              "Amount: Ksh ${amount.toString()}",
               style:
                   GoogleFonts.openSans().copyWith(fontWeight: FontWeight.bold),
             ),
@@ -433,6 +439,7 @@ class _MainCartState extends State<MainCart> {
                             width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(color: AppColors.white),
                             child: ListView.builder(
+                              physics: const AlwaysScrollableScrollPhysics(),
                               itemCount: cart.length,
                               itemBuilder: (_, index) {
                                 return Padding(
@@ -465,7 +472,7 @@ class _MainCartState extends State<MainCart> {
                                     fontSize: 20, fontWeight: FontWeight.w700),
                               ),
                               Text(
-                                "Ksh. ${total_charge.toString()}.00",
+                                "Ksh ${total_charge.toString()}.00",
                                 style: GoogleFonts.openSans().copyWith(
                                     fontSize: 18, fontWeight: FontWeight.w700),
                               )
@@ -485,7 +492,7 @@ class _MainCartState extends State<MainCart> {
                                 fontWeight: FontWeight.w700),
                           ),
                           Text(
-                            "Ksh. ${_delivery_charges.toString()}.00",
+                            "Ksh ${_delivery_charges.toString()}.00",
                             style: GoogleFonts.openSans().copyWith(
                                 fontSize: 18, fontWeight: FontWeight.w700),
                           )
@@ -494,7 +501,7 @@ class _MainCartState extends State<MainCart> {
                           SizedBox(
                             height: 10,
                           ),
-                          Row(
+                          /*Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
@@ -503,7 +510,7 @@ class _MainCartState extends State<MainCart> {
                                     fontSize: 20, fontWeight: FontWeight.w700),
                               ),
                               Text(
-                                "Ksh. ${sub_total.toString()}.00",
+                                "Ksh ${sub_total.toString()}.00",
                                 style: GoogleFonts.openSans().copyWith(
                                     fontSize: 18, fontWeight: FontWeight.w700),
                               )
@@ -511,7 +518,7 @@ class _MainCartState extends State<MainCart> {
                           ),
                           SizedBox(
                             height: 30,
-                          ),
+                          ),*/
                           Center(
                             child: GestureDetector(
                               onTap: () {
@@ -577,10 +584,14 @@ class _MainCartState extends State<MainCart> {
         data,
         prefs.getString("token").toString());
 
+    //print(request_result);
+
 //    print(request_result["data"]["data"][0]["id"]);
     //print("Data is " + request_result["data"]["data"].toString());
 
-    print(request_result.toString());
+    //print(request_result.toString());
+
+    print(request_result["data"]["data"][0]);
 
     setState(() {
       _ordering = false;
@@ -591,8 +602,11 @@ class _MainCartState extends State<MainCart> {
       PageTransition(
           type: PageTransitionType.rightToLeft,
           child: MakePayment(
-              user: widget.user,
-              order_id: request_result["data"]["data"][0]["id"]),
+            user: widget.user,
+            order_id: request_result["data"]["data"][0]["id"],
+            total: total_charge.toString(),
+            order: request_result["data"]["data"][0],
+          ),
           inheritTheme: true,
           ctx: context),
     );

@@ -178,6 +178,7 @@ class _AddRecomendedState extends State<AddRecomended> {
         color: Colors.white,
         width: MediaQuery.of(context).size.width,
         child: ListView.builder(
+                          physics: const AlwaysScrollableScrollPhysics(),
           itemCount: data_list.length,
           itemBuilder: (_, index) {
             return Container(

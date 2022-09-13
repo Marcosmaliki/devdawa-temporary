@@ -15,6 +15,8 @@ import 'package:infinite_carousel/infinite_carousel.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:intl/intl.dart';
+
 class MenuHome extends StatefulWidget {
   @override
   State<MenuHome> createState() => _MenuHomeState();
@@ -128,6 +130,8 @@ class _MenuHomeState extends State<MenuHome> {
   bool _fetch_anouncements = true;
 
   List _announce = [];
+
+  final numForm = NumberFormat("#,##0.00", "en_US");
 
   @override
   void initState() {
@@ -391,6 +395,7 @@ class _MenuHomeState extends State<MenuHome> {
                             },
                           ),
                           /*child: ListView.builder(
+                          physics: const AlwaysScrollableScrollPhysics(),
                         itemCount: _categories.length,
                         itemBuilder: (_,index){
                           return _categoryItem(
@@ -523,7 +528,10 @@ class _MenuHomeState extends State<MenuHome> {
                                             1]["image"]
                                     .toString(),
                                 products_list[itemIndex]["name"],
-                                products_list[itemIndex]["price"],
+                                numForm
+                                    .format(double.parse(
+                                        products_list[itemIndex]["price"]))
+                                    .toString(),
                                 products_list[itemIndex]["rating"].toString()),
 
                             /*popular_items[itemIndex]["image"],
@@ -574,6 +582,7 @@ class _MenuHomeState extends State<MenuHome> {
                         },
                       ),*/
                       child: ListView.builder(
+                        physics: const AlwaysScrollableScrollPhysics(),
                         scrollDirection: Axis.horizontal,
                         itemCount: _brands_list.length,
                         itemBuilder: (_, index) {
@@ -653,7 +662,7 @@ class _MenuHomeState extends State<MenuHome> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Ksh. ${price.toString()}",
+                  "Ksh ${price.toString()}",
                   style: GoogleFonts.openSans().copyWith(
                       fontWeight: FontWeight.w600,
                       color: AppColors.pale_text,

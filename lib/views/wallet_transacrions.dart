@@ -69,6 +69,7 @@ class _WalletTransactionsState extends State<WalletTransactions> {
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               child: ListView.builder(
+                          physics: const AlwaysScrollableScrollPhysics(),
                 itemCount: _trans.length,
                 itemBuilder: (_, index) {
                   return _transItem(

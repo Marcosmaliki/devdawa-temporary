@@ -196,11 +196,11 @@ class _DelivererProfileState extends State<DelivererProfile> {
                         Padding(
                           padding:
                               EdgeInsets.only(top: 15, left: 10, right: 10),
-                          child: FlatButton(
-                            child: Text(
-                              "Edit",
-                              style: TextStyle(color: Colors.white),
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: AppColors.green,
                             ),
+                            child: Text("Edit"),
                             onPressed: () {
                               Navigator.push(
                                 context,
@@ -217,7 +217,6 @@ class _DelivererProfileState extends State<DelivererProfile> {
                                     ctx: context),
                               );
                             },
-                            color: AppColors.green,
                           ),
                         ),
                       ],

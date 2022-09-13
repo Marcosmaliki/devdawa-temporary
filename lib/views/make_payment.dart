@@ -10,8 +10,14 @@ import '../services/base_client.dart';
 class MakePayment extends StatefulWidget {
   final Map user;
   final String order_id;
+  final String total;
+  final Map order;
 
-  MakePayment({required this.user, required this.order_id});
+  MakePayment(
+      {required this.user,
+      required this.order_id,
+      required this.total,
+      required this.order});
 
   @override
   _MakePaymentState createState() => _MakePaymentState();
@@ -21,6 +27,39 @@ class _MakePaymentState extends State<MakePayment> {
   bool _ordering = false;
 
   var base_client = BaseClient();
+
+  bool _fetchOrder = true;
+
+  List orders = [];
+
+  _fetchOrders() async {
+    final prefs = await SharedPreferences.getInstance();
+    var request_result = await BaseClient.getRequestAuth(
+        base_client.base_url + "/order/single/${widget.order_id}/get",
+        prefs.getString("token"));
+
+    if (request_result["status"] == "offline") {
+      print("Offline");
+    } else {
+      if (request_result["data"]["success"]) {
+        setState(() {
+          _fetchOrder = false;
+          //orders = request_result["data"]["data"]["data"];
+          //orders.add(request_result["data"]["data"]["order_delivery"]["deliveryFee"].toString());
+          orders.add(request_result["data"]["data"]["order_delivery"]);
+        });
+
+        print(orders);
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _fetchOrders();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,28 +72,98 @@ class _MakePaymentState extends State<MakePayment> {
           style: GoogleFonts.openSans().copyWith(),
         ),
       ),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              height: 100,
-              width: 100,
-              child: Image.asset(
-                "assets/images/lipa.png",
-                height: 100,
-                width: 100,
+      body: _fetchOrder
+          ? Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Center(
+                child: CircularProgressIndicator(),
               ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            GestureDetector(
-              onTap: () {
-                _makePayment(widget.order_id);
-                /*Navigator.push(
+            )
+          : Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Item(s) cost: ",
+                        style: TextStyle(
+                            color: AppColors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        widget.total.toString(),
+                        style: TextStyle(
+                            color: AppColors.green,
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Delivery charge: ",
+                        style: TextStyle(
+                            color: AppColors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        orders[0]["deliveryFee"].toString(),
+                        style: TextStyle(
+                            color: AppColors.green,
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Total: ",
+                        style: TextStyle(
+                            color: AppColors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        (int.parse(orders[0]["deliveryFee"].toString()) +
+                                int.parse(widget.total.toString()))
+                            .toString(),
+                        style: TextStyle(
+                            color: AppColors.green,
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    height: 100,
+                    width: 100,
+                    child: Image.asset(
+                      "assets/images/lipa.png",
+                      height: 100,
+                      width: 100,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      _makePayment(widget.order_id);
+                      /*Navigator.push(
                               context,
                               PageTransition(
                                   type: PageTransitionType.rightToLeft,
@@ -62,34 +171,34 @@ class _MakePaymentState extends State<MakePayment> {
                                   inheritTheme: true,
                                   ctx: context),
                             );*/
-              },
-              child: Container(
-                  padding: EdgeInsets.all(10),
-                  height: 50,
-                  width: 230,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: AppColors.green,
+                    },
+                    child: Container(
+                        padding: EdgeInsets.all(10),
+                        height: 50,
+                        width: 230,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: AppColors.green,
+                        ),
+                        child: Center(
+                          child: _ordering
+                              ? Text(
+                                  "Processing...",
+                                  style: TextStyle(color: AppColors.white),
+                                )
+                              : Text(
+                                  "Proceed",
+                                  //"Check Out",
+                                  style: GoogleFonts.openSans().copyWith(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w700),
+                                ),
+                        )),
                   ),
-                  child: Center(
-                    child: _ordering
-                        ? Text(
-                            "Processing...",
-                            style: TextStyle(color: AppColors.white),
-                          )
-                        : Text(
-                            "Proceed",
-                            //"Check Out",
-                            style: GoogleFonts.openSans().copyWith(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700),
-                          ),
-                  )),
+                ],
+              ),
             ),
-          ],
-        ),
-      ),
     );
   }
 

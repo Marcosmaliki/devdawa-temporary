@@ -69,6 +69,7 @@ class _AllConditionsState extends State<AllConditions> {
               ? Container(
                   margin: EdgeInsets.all(20),
                   child: ListView.builder(
+                          physics: const AlwaysScrollableScrollPhysics(),
                     itemCount: conditions.length,
                     itemBuilder: (_, index) {
                       return GestureDetector(

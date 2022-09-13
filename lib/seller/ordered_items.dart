@@ -30,6 +30,7 @@ class _OrderedItemsState extends State<OrderedItems> {
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: ListView.builder(
+                          physics: const AlwaysScrollableScrollPhysics(),
           itemCount: widget.itemslist.length,
           itemBuilder: (_, index) {
             return _orderItem(
@@ -51,7 +52,7 @@ class _OrderedItemsState extends State<OrderedItems> {
         width: MediaQuery.of(context).size.width,
         height: 70,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10), color: AppColors.red),
+            borderRadius: BorderRadius.circular(10), color: AppColors.shade),
         child: Padding(
           padding: EdgeInsets.only(top: 5, left: 10),
           child: Column(

@@ -216,7 +216,7 @@ class _CategoryDetailState extends State<CategoryDetail> {
                                 ]),
                               ),
                               Text(
-                                  "Ksh. ${(int.parse(widget.data["price"]) * _quantity)}",
+                                  "Ksh ${(int.parse(widget.data["price"]) * _quantity)}",
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 25,

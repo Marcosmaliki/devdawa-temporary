@@ -72,6 +72,7 @@ class _DelivererMenuHomeState extends State<DelivererMenuHome> {
                   height: MediaQuery.of(context).size.height,
                   width: MediaQuery.of(context).size.width,
                   child: ListView.builder(
+                    physics: const AlwaysScrollableScrollPhysics(),
                     itemCount: orders.length,
                     itemBuilder: (_, index) {
                       return Container(
@@ -170,12 +171,25 @@ class _DelivererMenuHomeState extends State<DelivererMenuHome> {
                                             type:
                                                 PageTransitionType.rightToLeft,
                                             child: ViewOrdered(
-                                              order_id: "ur8r98r9r",
+                                              order_id: orders[index]["id"],
                                               items: [],
                                             ),
                                             inheritTheme: true,
                                             ctx: context),
                                       );
+
+                                      /*Navigator.push(
+                                        context,
+                                        PageTransition(
+                                            type:
+                                                PageTransitionType.rightToLeft,
+                                            child: ViewOrdered(
+                                              order_id: "ur8r98r9r",
+                                              items: [],
+                                            ),
+                                            inheritTheme: true,
+                                            ctx: context),
+                                      );*/
                                     },
                                     child: Container(
                                       height: 40,

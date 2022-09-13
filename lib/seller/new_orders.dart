@@ -41,6 +41,7 @@ class _NewOrdersState extends State<NewOrders> {
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: ListView.builder(
+          physics: const AlwaysScrollableScrollPhysics(),
           itemCount: widget.orderslist.length,
           itemBuilder: (_, index) {
             return Container(
@@ -168,7 +169,9 @@ class _NewOrdersState extends State<NewOrders> {
                             ),
                           ),
                         ),
-                        widget.orderslist[index]["order_delivery"] != null
+                        widget.orderslist[index]["order_delivery"]
+                                    ["delivererId"] !=
+                                null
                             ? Container(
                                 height: 40,
                                 width: 150,
@@ -327,11 +330,11 @@ class _NewOrdersState extends State<NewOrders> {
         );
       });
     } else if (request_result["response"].toString() == "500") {
-      _showSnackBar("Server error(500)", Colors.red, Icons.error_outline,
-          Colors.white, Colors.white);
+      _showSnackBar(request_result["data"]["message"].toString(), Colors.red,
+          Icons.error_outline, Colors.white, Colors.white);
     } else {
-      _showSnackBar("Something went wrong", Colors.red, Icons.error_outline,
-          Colors.white, Colors.white);
+      _showSnackBar(request_result["data"]["message"].toString(), Colors.red,
+          Icons.error_outline, Colors.white, Colors.white);
     }
   }
 

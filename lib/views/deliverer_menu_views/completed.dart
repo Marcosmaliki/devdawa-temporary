@@ -69,6 +69,7 @@ class _CompletedOrdersState extends State<CompletedOrders> {
                   height: MediaQuery.of(context).size.height,
                   width: MediaQuery.of(context).size.width,
                   child: ListView.builder(
+                          physics: const AlwaysScrollableScrollPhysics(),
                     itemCount: orders.length,
                     itemBuilder: (_, index) {
                       return Container(

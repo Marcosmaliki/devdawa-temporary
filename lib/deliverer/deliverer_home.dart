@@ -31,11 +31,36 @@ class _DelivererHomeState extends State<DelivererHome> {
 
   int _selectedIndex = 0;
 
+  DateTime? currentBackPressTime;
+
   List menu_screens = [
     DelivererMenuHome(),
     CompletedOrders(),
     DelivererProfile()
   ];
+
+  _showSnackBar2(message, color, icon) {
+    final snackBar = SnackBar(
+      content: Row(
+        children: [
+          Icon(icon),
+          SizedBox(
+            width: 10,
+          ),
+          Text(message)
+        ],
+      ),
+      backgroundColor: color,
+      action: SnackBarAction(
+        label: 'Undo',
+        onPressed: () {
+          // Some code to undo the change.
+        },
+      ),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 
   _fetchOrders() async {
     final prefs = await SharedPreferences.getInstance();
@@ -69,68 +94,81 @@ class _DelivererHomeState extends State<DelivererHome> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        title: const Text("Deliverer Home"),
-        actions: [
-          PopupMenuButton(
-              onSelected: (value) async {
-                if (value == 1) {
-                  final prefs = await SharedPreferences.getInstance();
-                  prefs.setBool("logged_in", false).then((value) {
-                    Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.rightToLeft,
-                          child: Login(),
-                          inheritTheme: true,
-                          ctx: context),
-                    );
-                  });
-                }
-              },
-              itemBuilder: (context) => [
-                    /*PopupMenuItem(
-                        value: 1,
-                        child: Row(
-                          children: const <Widget>[
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(2, 2, 8, 2),
-                              child: Icon(
-                                Icons.send,
-                                color: Colors.black,
+    return WillPopScope(
+      onWillPop: () async {
+        DateTime now = DateTime.now();
+        if (currentBackPressTime == null ||
+            now.difference(currentBackPressTime!) > Duration(seconds: 5)) {
+          currentBackPressTime = now;
+          //Fluttertoast.showToast(msg: exit_warning);
+          _showSnackBar2("Tap again to close", Colors.grey, Icons.close);
+          return Future.value(false);
+        }
+        return Future.value(true);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          title: const Text("Deliverer Home"),
+          actions: [
+            PopupMenuButton(
+                onSelected: (value) async {
+                  if (value == 1) {
+                    final prefs = await SharedPreferences.getInstance();
+                    prefs.setBool("logged_in", false).then((value) {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.rightToLeft,
+                            child: Login(),
+                            inheritTheme: true,
+                            ctx: context),
+                      );
+                    });
+                  }
+                },
+                itemBuilder: (context) => [
+                      /*PopupMenuItem(
+                          value: 1,
+                          child: Row(
+                            children: const <Widget>[
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(2, 2, 8, 2),
+                                child: Icon(
+                                  Icons.send,
+                                  color: Colors.black,
+                                ),
                               ),
-                            ),
-                            Text('Submit prescription')
-                          ],
-                        )),*/
-                    PopupMenuItem(
-                        value: 1,
-                        child: Row(
-                          children: const <Widget>[
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(2, 2, 8, 2),
-                              child: Icon(
-                                Icons.exit_to_app,
-                                color: Colors.black,
+                              Text('Submit prescription')
+                            ],
+                          )),*/
+                      PopupMenuItem(
+                          value: 1,
+                          child: Row(
+                            children: const <Widget>[
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(2, 2, 8, 2),
+                                child: Icon(
+                                  Icons.exit_to_app,
+                                  color: Colors.black,
+                                ),
                               ),
-                            ),
-                            Text('Logout')
-                          ],
-                        )),
-                  ]),
-        ],
+                              Text('Logout')
+                            ],
+                          )),
+                    ]),
+          ],
+        ),
+        body: menu_screens[_selectedIndex],
+        bottomNavigationBar: _bottomNavigation(),
       ),
-      body: menu_screens[_selectedIndex],
-      bottomNavigationBar: _bottomNavigation(),
     );
   }
 
   Widget _bottomNavigation() {
     return BottomNavigationBar(
-      unselectedItemColor: Colors.grey.shade400,
+      unselectedItemColor: AppColors.black,
       type: BottomNavigationBarType.fixed,
       backgroundColor: AppColors.green,
       items: <BottomNavigationBarItem>[

@@ -4,6 +4,7 @@ import 'package:devdawa/utils/appcolors.dart';
 import 'package:devdawa/views/home.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -40,6 +41,8 @@ class _ProductDetailState extends State<ProductDetail> {
   int _imageIndex = 0;
 
   var base_client = BaseClient();
+
+  final numForm = NumberFormat("#,##0.00", "en_US");
 
   void _increment() {
     setState(() {
@@ -143,6 +146,7 @@ class _ProductDetailState extends State<ProductDetail> {
               margin: EdgeInsets.only(left: 20, right: 20),
               decoration: BoxDecoration(color: AppColors.grey),
               child: ListView.builder(
+                physics: const AlwaysScrollableScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 itemCount: widget.data["image"].length,
                 itemBuilder: (_, index) {
@@ -246,7 +250,7 @@ class _ProductDetailState extends State<ProductDetail> {
                                 ]),
                               ),
                               Text(
-                                  "Ksh. ${(int.parse(widget.data["price"]) * _quantity)}",
+                                  "Ksh ${numForm.format(double.parse(widget.data["price"]) * _quantity).toString()}",
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 25,

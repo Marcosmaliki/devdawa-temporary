@@ -54,174 +54,162 @@ class _MenuProfileState extends State<MenuProfile> {
                 child: CircularProgressIndicator(),
               ),
             )
-          : SingleChildScrollView(
+          : Container(
+              //duration: const Duration(milliseconds: 500),
+              height: 325,
+              margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(5),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.1),
+                    spreadRadius: 2,
+                    blurRadius: 2,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+              ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AnimatedContainer(
-                    duration: const Duration(milliseconds: 500),
-                    height: _detailsHeight,
-                    margin: EdgeInsets.only(top: 10, left: 10, right: 10),
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.1),
-                          spreadRadius: 2,
-                          blurRadius: 2,
-                          offset: Offset(0, 3), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  Padding(
+                    padding: EdgeInsets.only(top: 15, left: 10, right: 10),
+                    child: Row(
                       children: [
-                        Padding(
-                          padding:
-                              EdgeInsets.only(top: 15, left: 10, right: 10),
-                          child: Row(
-                            children: [
-                              /*Icon(CartIcons.user_1_),
-                        SizedBox(width: 10,),*/
-                              Text(
-                                "Profile",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500, fontSize: 20),
-                              ),
-                              Spacer(),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    PageTransition(
-                                        type: PageTransitionType.rightToLeft,
-                                        child: ChangePassword(),
-                                        inheritTheme: true,
-                                        ctx: context),
-                                  );
-                                },
-                                child: Text(
-                                  "Change Password",
-                                  style: TextStyle(
-                                    color: AppColors.green,
-                                    fontSize: 16,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
+                        /*Icon(CartIcons.user_1_),
+              SizedBox(width: 10,),*/
+                        Text(
+                          "Profile",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500, fontSize: 20),
                         ),
-                        Divider(),
-                        Padding(
-                          padding:
-                              EdgeInsets.only(top: 15, left: 10, right: 10),
-                          child: Row(
-                            children: [
-                              Icon(Icons.ac_unit),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "Name: ${data[0]["surname"]}",
-                                style: TextStyle(fontWeight: FontWeight.w500),
-                              )
-                            ],
+                        Spacer(),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              PageTransition(
+                                  type: PageTransitionType.rightToLeft,
+                                  child: ChangePassword(),
+                                  inheritTheme: true,
+                                  ctx: context),
+                            );
+                          },
+                          child: Text(
+                            "Change Password",
+                            style: TextStyle(
+                              color: AppColors.green,
+                              fontSize: 16,
+                              decoration: TextDecoration.underline,
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding:
-                              EdgeInsets.only(top: 15, left: 10, right: 10),
-                          child: Row(
-                            children: [
-                              Icon(Icons.account_circle),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "Other Names: ${data[0]["othernames"]}",
-                                style: TextStyle(fontWeight: FontWeight.w500),
-                              )
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding:
-                              EdgeInsets.only(top: 15, left: 10, right: 10),
-                          child: Row(
-                            children: [
-                              Icon(Icons.storage),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "ID No.: ${data[0]["idNo"]}",
-                                style: TextStyle(fontWeight: FontWeight.w500),
-                              )
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding:
-                              EdgeInsets.only(top: 15, left: 10, right: 10),
-                          child: Row(
-                            children: [
-                              Icon(Icons.email),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "Email: ${data[0]["email"]}",
-                                style: TextStyle(fontWeight: FontWeight.w500),
-                              )
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding:
-                              EdgeInsets.only(top: 15, left: 10, right: 10),
-                          child: Row(
-                            children: [
-                              Icon(Icons.phone),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "Phone: ${data[0]["phone"]}",
-                                style: TextStyle(fontWeight: FontWeight.w500),
-                              )
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding:
-                              EdgeInsets.only(top: 15, left: 10, right: 10),
-                          child: FlatButton(
-                            child: Text("Edit"),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                PageTransition(
-                                    type: PageTransitionType.rightToLeft,
-                                    child: EditProfile(
-                                      name: data[0]["surname"],
-                                      other: data[0]["othernames"],
-                                      id_no: data[0]["idNo"].toString(),
-                                      email: data[0]["email"],
-                                      phone: data[0]["phone"],
-                                    ),
-                                    inheritTheme: true,
-                                    ctx: context),
-                              );
-                            },
-                            color: AppColors.green,
-                          ),
-                        ),
+                        )
                       ],
                     ),
                   ),
-                  //_animatedEditContainer()
+                  Divider(),
+                  Padding(
+                    padding: EdgeInsets.only(top: 15, left: 10, right: 10),
+                    child: Row(
+                      children: [
+                        Icon(Icons.ac_unit),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "Name: ${data[0]["surname"]}",
+                          style: TextStyle(fontWeight: FontWeight.w500),
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 15, left: 10, right: 10),
+                    child: Row(
+                      children: [
+                        Icon(Icons.account_circle),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "Other Names: ${data[0]["othernames"]}",
+                          style: TextStyle(fontWeight: FontWeight.w500),
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 15, left: 10, right: 10),
+                    child: Row(
+                      children: [
+                        Icon(Icons.storage),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "ID No.: ${data[0]["idNo"]}",
+                          style: TextStyle(fontWeight: FontWeight.w500),
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 15, left: 10, right: 10),
+                    child: Row(
+                      children: [
+                        Icon(Icons.email),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "Email: ${data[0]["email"]}",
+                          style: TextStyle(fontWeight: FontWeight.w500),
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 15, left: 10, right: 10),
+                    child: Row(
+                      children: [
+                        Icon(Icons.phone),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "Phone: ${data[0]["phone"]}",
+                          style: TextStyle(fontWeight: FontWeight.w500),
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 15, left: 10, right: 10),
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: AppColors.green,
+                      ),
+                      child: Text("Edit"),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: EditProfile(
+                                name: data[0]["surname"],
+                                other: data[0]["othernames"],
+                                id_no: data[0]["idNo"].toString(),
+                                email: data[0]["email"],
+                                phone: data[0]["phone"],
+                              ),
+                              inheritTheme: true,
+                              ctx: context),
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),

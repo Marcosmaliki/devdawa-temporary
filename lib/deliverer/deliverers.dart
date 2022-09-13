@@ -55,6 +55,7 @@ class _DeliverersState extends State<Deliverers> {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               child: ListView.builder(
+                physics: const AlwaysScrollableScrollPhysics(),
                 itemCount: deliverers.length,
                 itemBuilder: (_, index) {
                   return Padding(
@@ -105,7 +106,7 @@ class _DeliverersState extends State<Deliverers> {
                             SizedBox(
                               height: 5,
                             ),
-                            deliverers[index]["availability"].toString() == "0"
+                            deliverers[index]["availability"].toString() == "1"
                                 ? GestureDetector(
                                     onTap: () {
                                       _assignOrder(deliverers[index]["id"]);

@@ -4,26 +4,31 @@ import 'package:devdawa/services/base_client.dart';
 import 'package:devdawa/utils/appcolors.dart';
 import 'package:devdawa/views/main_cart.dart';
 import 'package:devdawa/views/menu_views/menu_basket.dart';
+import 'package:devdawa/views/menu_views/menu_favs.dart';
 import 'package:devdawa/views/menu_views/menu_history.dart';
 import 'package:devdawa/views/menu_views/menu_home.dart';
 import 'package:devdawa/views/menu_views/menu_profile.dart';
+import 'package:devdawa/views/prescription.dart';
+import 'package:devdawa/views/rate_delivery.dart';
 import 'package:devdawa/views/search.dart';
 import 'package:devdawa/views/wallet_transacrions.dart';
 import 'package:devdawa/views/withdraw.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_carousel_slider/carousel_slider.dart';
+import 'package:flutter_carousel_slider/carousel_slider_indicators.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_carousel/infinite_carousel.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/services.dart';
 import 'dart:async';
-import '../utils//number_formatter.dart';
 
 class HomeScreen extends StatefulWidget {
   final Map user;
   final String token;
 
-  const HomeScreen({required this.user, required this.token});
+  HomeScreen({required this.user, required this.token});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -147,7 +152,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   _getCart() async {
     final prefs = await SharedPreferences.getInstance();
     var request_result = await BaseClient.getRequestAuth(
-        base_client.base_url + "/cart/all", prefs.getString("token"));
+        base_client.base_url +
+            "/cart/all?clientId=${prefs.getString("client_id")}",
+        prefs.getString("token"));
 
     setState(() {
       _cart_counter = request_result["data"]["data"]["data"].length.toString();
@@ -407,7 +414,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   }
                 },
                 itemBuilder: (context) => [
-                      PopupMenuItem(
+                      /*PopupMenuItem(
                           value: 2,
                           child: Row(
                             children: const <Widget>[
@@ -420,7 +427,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                               ),
                               Text('Prescription')
                             ],
-                          )),
+                          )),*/
                       PopupMenuItem(
                           value: 1,
                           child: Row(
@@ -442,6 +449,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           ],
         ),
         body: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: menu_screens[_selectedIndex],
+        ),
+        /*Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: SingleChildScrollView(
@@ -470,7 +482,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                               height: 5,
                             ),
                             Text(
-                              "Ksh. ${num.parse(wallet_balance).formatNumber}",
+                              "Ksh $wallet_balance",
                               style: const TextStyle(
                                   fontWeight: FontWeight.w500, fontSize: 20),
                             ),
@@ -549,7 +561,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               ],
             ),
           ),
-        ),
+        ),*/
         bottomNavigationBar: _bottomNavigation(),
       ),
     );
@@ -563,7 +575,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   Widget _bottomNavigation() {
     return BottomNavigationBar(
-      unselectedItemColor: Colors.grey.shade400,
+      unselectedItemColor: AppColors.black,
       type: BottomNavigationBarType.fixed,
       backgroundColor: AppColors.green,
       items: <BottomNavigationBarItem>[
@@ -667,15 +679,15 @@ class IconBottomBar extends StatelessWidget {
       children: [
         IconButton(
           onPressed: onPressed,
-          icon:
-              Icon(icon, size: 25, color: selected ? accentColor : Colors.grey),
+          icon: Icon(icon,
+              size: 25, color: selected ? accentColor : Colors.black),
         ),
         Text(
           text,
           style: TextStyle(
               fontSize: 12,
               height: .1,
-              color: selected ? accentColor : Colors.grey),
+              color: selected ? accentColor : Colors.black),
         )
       ],
     );
