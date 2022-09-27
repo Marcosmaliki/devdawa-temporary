@@ -269,28 +269,31 @@ class _SellerHomeState extends State<SellerHome> {
                     ),
                     Text(rating.toString()),
                     const Spacer(),
-                    Container(
-                      height: 30,
-                      width: 70,
-                      decoration: BoxDecoration(
-                          color: AppColors.green,
-                          borderRadius: BorderRadius.circular(20)),
-                      child: TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              PageTransition(
-                                  type: PageTransitionType.rightToLeft,
-                                  child: BusinessProducts(
-                                    user: widget.user,
-                                    token: widget.token,
-                                    business_id: business_id,
-                                  ),
-                                  inheritTheme: true,
-                                  ctx: context),
-                            );
-                          },
-                          child: Text("View")),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: BusinessProducts(
+                                user: widget.user,
+                                token: widget.token,
+                                business_id: business_id,
+                              ),
+                              inheritTheme: true,
+                              ctx: context),
+                        );
+                      },
+                      child: Container(
+                        height: 30,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            color: AppColors.green,
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Center(
+                          child: Text("View"),
+                        ),
+                      ),
                     )
                   ],
                 )

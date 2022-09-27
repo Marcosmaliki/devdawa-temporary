@@ -43,367 +43,341 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
+      body: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          child: Stack(
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/login_mobile.jpg"),
-                    fit: BoxFit.cover,
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Create Account",
+                    /*style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 25),*/
+                    style: GoogleFonts.openSans().copyWith(
+                        fontWeight: FontWeight.w600,
+                        //color: Colors.white,
+                        fontSize: 25),
                   ),
-                ),
-              ),
-              Positioned(
-                top: 0,
-                child: Opacity(
-                  opacity: 0.7,
-                  child: Container(
-                    height: 250,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(colors: [
-                      /*AppColors.pink,
-                        Colors.pinkAccent,
-                        Colors.deepOrange*/
-                      AppColors.green,
-                      Colors.greenAccent,
-                      Colors.green.shade900
-                    ])),
-                    child: Center(
-                      child: Container(
-                        height: 130,
-                        width: 130,
-                        decoration:
-                            const BoxDecoration(color: Colors.transparent),
-                        child: Column(
-                          children: [
-                            Image.asset(
-                              "assets/icons/pharmacy.png",
-                              height: 80,
-                              width: 80,
-                            ),
-                          ],
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Enter your email address below",
+                    style: GoogleFonts.openSans()
+                        .copyWith(color: Colors.grey[400], fontSize: 13),
+                  ),
+                  TextField(
+                    textInputAction: TextInputAction.next,
+                    controller: _emailcontroller,
+                    onChanged: (email) {
+                      if (_isValidEmail(email)) {
+                        setState(() {
+                          _email_valid = true;
+                        });
+                      } else {
+                        setState(() {
+                          _email_valid = false;
+                        });
+                      }
+                    },
+                    decoration: InputDecoration(
+                        hintText: 'Email address',
+                        prefixIcon: Icon(
+                          Icons.alternate_email,
+                          color: AppColors.green,
                         ),
+                        suffixIcon: !_email_valid
+                            ? Icon(
+                                Icons.close,
+                                color: Colors.grey[600],
+                              )
+                            : Icon(
+                                Icons.done,
+                                color: AppColors.green,
+                              )),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Type your username",
+                    style: GoogleFonts.openSans()
+                        .copyWith(color: Colors.grey[400], fontSize: 13),
+                  ),
+                  TextField(
+                    textInputAction: TextInputAction.next,
+                    controller: _usernameController,
+                    decoration: InputDecoration(
+                      hintText: 'Username',
+                      prefixIcon: Icon(
+                        Icons.account_circle,
+                        color: AppColors.green,
                       ),
                     ),
                   ),
-                ),
-              ),
-              Positioned(
-                top: 50,
-                child: Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      color: AppColors.white,
-                      borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(20),
-                          topLeft: Radius.circular(20))),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 10, right: 10, top: 15, bottom: 10),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height,
-                      width: MediaQuery.of(context).size.width,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Create Account",
-                            /*style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 25),*/
-                            style: GoogleFonts.openSans().copyWith(
-                                fontWeight: FontWeight.w600,
-                                //color: Colors.white,
-                                fontSize: 25),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "Enter your email address below",
-                            style: GoogleFonts.openSans().copyWith(
-                                color: Colors.grey[400], fontSize: 13),
-                          ),
-                          TextField(
-                            textInputAction: TextInputAction.next,
-                            controller: _emailcontroller,
-                            onChanged: (email) {
-                              if (_isValidEmail(email)) {
-                                setState(() {
-                                  _email_valid = true;
-                                });
-                              } else {
-                                setState(() {
-                                  _email_valid = false;
-                                });
-                              }
-                            },
-                            decoration: InputDecoration(
-                                hintText: 'Email address',
-                                prefixIcon: Icon(
-                                  Icons.alternate_email,
-                                  color: AppColors.green,
-                                ),
-                                suffixIcon: !_email_valid
-                                    ? Icon(
-                                        Icons.close,
-                                        color: Colors.grey[600],
-                                      )
-                                    : Icon(
-                                        Icons.done,
-                                        color: AppColors.green,
-                                      )),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "Type your username",
-                            style: GoogleFonts.openSans().copyWith(
-                                color: Colors.grey[400], fontSize: 13),
-                          ),
-                          TextField(
-                            textInputAction: TextInputAction.next,
-                            controller: _usernameController,
-                            decoration: InputDecoration(
-                              hintText: 'Username',
-                              prefixIcon: Icon(
-                                Icons.account_circle,
-                                color: AppColors.green,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          Text(
-                            "Enter phone number",
-                            style: GoogleFonts.openSans().copyWith(
-                                color: Colors.grey[400], fontSize: 13),
-                          ),
-                          IntlPhoneField(
-                            textInputAction: TextInputAction.next,
-                            decoration: const InputDecoration(
-                              labelText: 'Phone Number',
-                              /*border: OutlineInputBorder(
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    "Enter phone number",
+                    style: GoogleFonts.openSans()
+                        .copyWith(color: Colors.grey[400], fontSize: 13),
+                  ),
+                  IntlPhoneField(
+                    textInputAction: TextInputAction.next,
+                    decoration: const InputDecoration(
+                      labelText: 'Phone Number',
+                      /*border: OutlineInputBorder(
                                 borderSide: BorderSide(),
                               ),*/
-                            ),
-                            initialCountryCode: 'KE',
-                            onChanged: (phone) {
-                              _phoneController.text = phone.completeNumber
-                                  .toString()
-                                  .substring(4,
-                                      phone.completeNumber.toString().length);
-                              /*print(phone.completeNumber);*/
-                            },
-                          ),
-                          const SizedBox(
-                            height: 0,
-                          ),
-                          Text(
-                            "Enter other names",
-                            style: GoogleFonts.openSans().copyWith(
-                                color: Colors.grey[400], fontSize: 13),
-                          ),
-                          TextField(
-                            textInputAction: TextInputAction.next,
-                            controller: _othercontroller,
-                            obscureText: false,
-                            decoration: InputDecoration(
-                              hintText: 'Other names',
-                              prefixIcon: Icon(
-                                Icons.add,
-                                color: AppColors.green,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            "Enter surname",
-                            style: GoogleFonts.openSans().copyWith(
-                                color: Colors.grey[400], fontSize: 13),
-                          ),
-                          TextField(
-                            textInputAction: TextInputAction.next,
-                            controller: _surnamecontroller,
-                            obscureText: false,
-                            decoration: InputDecoration(
-                              hintText: 'Surname',
-                              prefixIcon: Icon(
-                                Icons.person,
-                                color: AppColors.green,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 0,
-                          ),
-                          Text(
-                            "Enter your password below",
-                            style: GoogleFonts.openSans().copyWith(
-                                color: Colors.grey[400], fontSize: 13),
-                          ),
-                          TextField(
-                            textInputAction: TextInputAction.next,
-                            controller: _passwordcontroller,
-                            obscureText: _obscureText,
-                            decoration: InputDecoration(
-                                hintText: 'Password',
-                                prefixIcon: Icon(
-                                  Icons.lock_open,
-                                  color: AppColors.green,
-                                ),
-                                suffixIcon: _obscureText
-                                    ? GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            _obscureText = false;
-                                          });
-                                        },
-                                        child: Icon(
-                                          /*Icons.remove_red_eye,*/
-                                          Icons.visibility_off,
-                                          color: Colors.grey[700],
-                                        ),
-                                      )
-                                    : GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            _obscureText = true;
-                                          });
-                                        },
-                                        child: Icon(
-                                          /*Icons.remove_red_eye,*/
-                                          Icons.visibility,
-                                          color: Colors.grey[700],
-                                        ),
-                                      )),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "Retype password below",
-                            style: GoogleFonts.openSans().copyWith(
-                                color: Colors.grey[400], fontSize: 13),
-                          ),
-                          TextField(
-                            textInputAction: TextInputAction.done,
-                            controller: _confirmController,
-                            obscureText: _obscureConfirm,
-                            decoration: InputDecoration(
-                                hintText: 'Confirm Password',
-                                prefixIcon: Icon(
-                                  Icons.lock_open,
-                                  color: AppColors.green,
-                                ),
-                                suffixIcon: _obscureConfirm
-                                    ? GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            _obscureConfirm = false;
-                                          });
-                                        },
-                                        child: Icon(
-                                          /*Icons.remove_red_eye,*/
-                                          Icons.visibility_off,
-                                          color: Colors.grey[700],
-                                        ),
-                                      )
-                                    : GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            _obscureConfirm = true;
-                                          });
-                                        },
-                                        child: Icon(
-                                          /*Icons.remove_red_eye,*/
-                                          Icons.visibility,
-                                          color: Colors.grey[700],
-                                        ),
-                                      )),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Container(
-                            height: 50,
-                            width: MediaQuery.of(context).size.width,
-                            child: Center(
-                              child: IconLoadingButton(
-                                color: AppColors.green,
-                                iconColor: Colors.white,
-                                valueColor: AppColors.green,
-                                errorColor: const Color(0xffe0333c),
-                                successColor: Colors.blue,
-                                elevation: 1,
-                                child: Text(
-                                  'Sign Up',
-                                  style: GoogleFonts.openSans().copyWith(
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                iconData: Icons.app_registration,
-                                onPressed: () {
-                                  //print(_phoneController.text);
-                                  if (_emailcontroller.text.isNotEmpty &&
-                                      _usernameController.text.isNotEmpty &&
-                                      _passwordcontroller.text.isNotEmpty &&
-                                      _confirmController.text.isNotEmpty &&
-                                      _surnamecontroller.text.isNotEmpty &&
-                                      _othercontroller.text.isNotEmpty) {
-                                    if (_phoneController.text.length > 9) {
-                                      if (_passwordcontroller.text ==
-                                          _confirmController.text) {
-                                        _signUpUser(
-                                            _emailcontroller.text,
-                                            _usernameController.text,
-                                            _phoneController.text,
-                                            _passwordcontroller.text,
-                                            _confirmController.text,
-                                            _surnamecontroller.text,
-                                            _othercontroller.text);
-                                      } else {
-                                        _loadingBtnController.reset();
-                                        _showSnackBar(
-                                            "Passwords don't match",
-                                            Colors.amber,
-                                            Icons.info,
-                                            Colors.black,
-                                            Colors.black);
-                                      }
-                                    } else {
-                                      _loadingBtnController.reset();
-                                      _showSnackBar(
-                                          "Wrong phone number format",
-                                          Colors.red,
-                                          Icons.error,
-                                          Colors.white,
-                                          Colors.white);
-                                    }
-                                  } else {
-                                    _loadingBtnController.reset();
-                                    _showSnackBar(
-                                        "All fields are required",
-                                        Colors.red,
-                                        Icons.error,
-                                        Colors.white,
-                                        Colors.white);
-                                  }
+                    ),
+                    initialCountryCode: 'KE',
+                    onChanged: (phone) {
+                      _phoneController.text = phone.completeNumber
+                          .toString()
+                          .substring(4, phone.completeNumber.toString().length);
+                      /*print(phone.completeNumber);*/
+                    },
+                  ),
+                  const SizedBox(
+                    height: 0,
+                  ),
+                  Text(
+                    "Enter other names",
+                    style: GoogleFonts.openSans()
+                        .copyWith(color: Colors.grey[400], fontSize: 13),
+                  ),
+                  TextField(
+                    textInputAction: TextInputAction.next,
+                    controller: _othercontroller,
+                    obscureText: false,
+                    decoration: InputDecoration(
+                      hintText: 'Other names',
+                      prefixIcon: Icon(
+                        Icons.add,
+                        color: AppColors.green,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    "Enter surname",
+                    style: GoogleFonts.openSans()
+                        .copyWith(color: Colors.grey[400], fontSize: 13),
+                  ),
+                  TextField(
+                    textInputAction: TextInputAction.next,
+                    controller: _surnamecontroller,
+                    obscureText: false,
+                    decoration: InputDecoration(
+                      hintText: 'Surname',
+                      prefixIcon: Icon(
+                        Icons.person,
+                        color: AppColors.green,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 0,
+                  ),
+                  Text(
+                    "Enter your password below",
+                    style: GoogleFonts.openSans()
+                        .copyWith(color: Colors.grey[400], fontSize: 13),
+                  ),
+                  TextField(
+                    textInputAction: TextInputAction.next,
+                    controller: _passwordcontroller,
+                    obscureText: _obscureText,
+                    decoration: InputDecoration(
+                        hintText: 'Password',
+                        prefixIcon: Icon(
+                          Icons.lock_open,
+                          color: AppColors.green,
+                        ),
+                        suffixIcon: _obscureText
+                            ? GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _obscureText = false;
+                                  });
                                 },
-                                successIcon: Icons.check_circle_outline,
-                                controller: _loadingBtnController,
-                              ),
-                            ),
+                                child: Icon(
+                                  /*Icons.remove_red_eye,*/
+                                  Icons.visibility_off,
+                                  color: Colors.grey[700],
+                                ),
+                              )
+                            : GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _obscureText = true;
+                                  });
+                                },
+                                child: Icon(
+                                  /*Icons.remove_red_eye,*/
+                                  Icons.visibility,
+                                  color: Colors.grey[700],
+                                ),
+                              )),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Retype password below",
+                    style: GoogleFonts.openSans()
+                        .copyWith(color: Colors.grey[400], fontSize: 13),
+                  ),
+                  TextField(
+                    textInputAction: TextInputAction.done,
+                    controller: _confirmController,
+                    obscureText: _obscureConfirm,
+                    decoration: InputDecoration(
+                        hintText: 'Confirm Password',
+                        prefixIcon: Icon(
+                          Icons.lock_open,
+                          color: AppColors.green,
+                        ),
+                        suffixIcon: _obscureConfirm
+                            ? GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _obscureConfirm = false;
+                                  });
+                                },
+                                child: Icon(
+                                  /*Icons.remove_red_eye,*/
+                                  Icons.visibility_off,
+                                  color: Colors.grey[700],
+                                ),
+                              )
+                            : GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _obscureConfirm = true;
+                                  });
+                                },
+                                child: Icon(
+                                  /*Icons.remove_red_eye,*/
+                                  Icons.visibility,
+                                  color: Colors.grey[700],
+                                ),
+                              )),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    height: 50,
+                    width: MediaQuery.of(context).size.width,
+                    child: Center(
+                      child: IconLoadingButton(
+                        color: AppColors.green,
+                        iconColor: Colors.white,
+                        valueColor: AppColors.green,
+                        errorColor: const Color(0xffe0333c),
+                        successColor: Colors.blue,
+                        elevation: 1,
+                        child: Text(
+                          'Sign Up',
+                          style: GoogleFonts.openSans().copyWith(
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                          ),
+                        ),
+                        iconData: Icons.app_registration,
+                        onPressed: () {
+                          //print(_phoneController.text);
+                          if (_emailcontroller.text.isNotEmpty &&
+                              _usernameController.text.isNotEmpty &&
+                              _passwordcontroller.text.isNotEmpty &&
+                              _confirmController.text.isNotEmpty &&
+                              _surnamecontroller.text.isNotEmpty &&
+                              _othercontroller.text.isNotEmpty) {
+                            if (_phoneController.text.length > 9) {
+                              if (_passwordcontroller.text ==
+                                  _confirmController.text) {
+                                _signUpUser(
+                                    _emailcontroller.text,
+                                    _usernameController.text,
+                                    _phoneController.text,
+                                    _passwordcontroller.text,
+                                    _confirmController.text,
+                                    _surnamecontroller.text,
+                                    _othercontroller.text);
+                              } else {
+                                _loadingBtnController.reset();
+                                _showSnackBar(
+                                    "Passwords don't match",
+                                    Colors.amber,
+                                    Icons.info,
+                                    Colors.black,
+                                    Colors.black);
+                              }
+                            } else {
+                              _loadingBtnController.reset();
+                              _showSnackBar(
+                                  "Wrong phone number format",
+                                  Colors.red,
+                                  Icons.error,
+                                  Colors.white,
+                                  Colors.white);
+                            }
+                          } else {
+                            _loadingBtnController.reset();
+                            _showSnackBar("All fields are required", Colors.red,
+                                Icons.error, Colors.white, Colors.white);
+                          }
+                        },
+                        successIcon: Icons.check_circle_outline,
+                        controller: _loadingBtnController,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
+          /*child: Stack(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/login_mobile.jpg"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Positioned(
+              top: 0,
+              child: Opacity(
+                opacity: 0.7,
+                child: Container(
+                  height: 250,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: [
+                    AppColors.green,
+                    Colors.greenAccent,
+                    Colors.green.shade900
+                  ])),
+                  child: Center(
+                    child: Container(
+                      height: 130,
+                      width: 130,
+                      decoration:
+                          const BoxDecoration(color: Colors.transparent),
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            "assets/icons/pharmacy.png",
+                            height: 80,
+                            width: 80,
                           ),
                         ],
                       ),
@@ -411,10 +385,326 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
               ),
-            ],
+            ),
+            Positioned(
+              top: 50,
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    color: AppColors.white,
+                    borderRadius: const BorderRadius.only(
+                        topRight: Radius.circular(20),
+                        topLeft: Radius.circular(20))),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 10, right: 10, top: 15, bottom: 10),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Create Account",
+                          */ /*style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 25),*/ /*
+                          style: GoogleFonts.openSans().copyWith(
+                              fontWeight: FontWeight.w600,
+                              //color: Colors.white,
+                              fontSize: 25),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "Enter your email address below",
+                          style: GoogleFonts.openSans().copyWith(
+                              color: Colors.grey[400], fontSize: 13),
+                        ),
+                        TextField(
+                          textInputAction: TextInputAction.next,
+                          controller: _emailcontroller,
+                          onChanged: (email) {
+                            if (_isValidEmail(email)) {
+                              setState(() {
+                                _email_valid = true;
+                              });
+                            } else {
+                              setState(() {
+                                _email_valid = false;
+                              });
+                            }
+                          },
+                          decoration: InputDecoration(
+                              hintText: 'Email address',
+                              prefixIcon: Icon(
+                                Icons.alternate_email,
+                                color: AppColors.green,
+                              ),
+                              suffixIcon: !_email_valid
+                                  ? Icon(
+                                      Icons.close,
+                                      color: Colors.grey[600],
+                                    )
+                                  : Icon(
+                                      Icons.done,
+                                      color: AppColors.green,
+                                    )),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "Type your username",
+                          style: GoogleFonts.openSans().copyWith(
+                              color: Colors.grey[400], fontSize: 13),
+                        ),
+                        TextField(
+                          textInputAction: TextInputAction.next,
+                          controller: _usernameController,
+                          decoration: InputDecoration(
+                            hintText: 'Username',
+                            prefixIcon: Icon(
+                              Icons.account_circle,
+                              color: AppColors.green,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                          "Enter phone number",
+                          style: GoogleFonts.openSans().copyWith(
+                              color: Colors.grey[400], fontSize: 13),
+                        ),
+                        IntlPhoneField(
+                          textInputAction: TextInputAction.next,
+                          decoration: const InputDecoration(
+                            labelText: 'Phone Number',
+                            */ /*border: OutlineInputBorder(
+                              borderSide: BorderSide(),
+                            ),*/ /*
+                          ),
+                          initialCountryCode: 'KE',
+                          onChanged: (phone) {
+                            _phoneController.text = phone.completeNumber
+                                .toString()
+                                .substring(4,
+                                    phone.completeNumber.toString().length);
+                            */ /*print(phone.completeNumber);*/ /*
+                          },
+                        ),
+                        const SizedBox(
+                          height: 0,
+                        ),
+                        Text(
+                          "Enter other names",
+                          style: GoogleFonts.openSans().copyWith(
+                              color: Colors.grey[400], fontSize: 13),
+                        ),
+                        TextField(
+                          textInputAction: TextInputAction.next,
+                          controller: _othercontroller,
+                          obscureText: false,
+                          decoration: InputDecoration(
+                            hintText: 'Other names',
+                            prefixIcon: Icon(
+                              Icons.add,
+                              color: AppColors.green,
+                            ),
+                          ),
+                        ),
+                        Text(
+                          "Enter surname",
+                          style: GoogleFonts.openSans().copyWith(
+                              color: Colors.grey[400], fontSize: 13),
+                        ),
+                        TextField(
+                          textInputAction: TextInputAction.next,
+                          controller: _surnamecontroller,
+                          obscureText: false,
+                          decoration: InputDecoration(
+                            hintText: 'Surname',
+                            prefixIcon: Icon(
+                              Icons.person,
+                              color: AppColors.green,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 0,
+                        ),
+                        Text(
+                          "Enter your password below",
+                          style: GoogleFonts.openSans().copyWith(
+                              color: Colors.grey[400], fontSize: 13),
+                        ),
+                        TextField(
+                          textInputAction: TextInputAction.next,
+                          controller: _passwordcontroller,
+                          obscureText: _obscureText,
+                          decoration: InputDecoration(
+                              hintText: 'Password',
+                              prefixIcon: Icon(
+                                Icons.lock_open,
+                                color: AppColors.green,
+                              ),
+                              suffixIcon: _obscureText
+                                  ? GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _obscureText = false;
+                                        });
+                                      },
+                                      child: Icon(
+                                        */ /*Icons.remove_red_eye,*/ /*
+                                        Icons.visibility_off,
+                                        color: Colors.grey[700],
+                                      ),
+                                    )
+                                  : GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _obscureText = true;
+                                        });
+                                      },
+                                      child: Icon(
+                                        */ /*Icons.remove_red_eye,*/ /*
+                                        Icons.visibility,
+                                        color: Colors.grey[700],
+                                      ),
+                                    )),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "Retype password below",
+                          style: GoogleFonts.openSans().copyWith(
+                              color: Colors.grey[400], fontSize: 13),
+                        ),
+                        TextField(
+                          textInputAction: TextInputAction.done,
+                          controller: _confirmController,
+                          obscureText: _obscureConfirm,
+                          decoration: InputDecoration(
+                              hintText: 'Confirm Password',
+                              prefixIcon: Icon(
+                                Icons.lock_open,
+                                color: AppColors.green,
+                              ),
+                              suffixIcon: _obscureConfirm
+                                  ? GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _obscureConfirm = false;
+                                        });
+                                      },
+                                      child: Icon(
+                                        */ /*Icons.remove_red_eye,*/ /*
+                                        Icons.visibility_off,
+                                        color: Colors.grey[700],
+                                      ),
+                                    )
+                                  : GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _obscureConfirm = true;
+                                        });
+                                      },
+                                      child: Icon(
+                                        */ /*Icons.remove_red_eye,*/ /*
+                                        Icons.visibility,
+                                        color: Colors.grey[700],
+                                      ),
+                                    )),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          height: 50,
+                          width: MediaQuery.of(context).size.width,
+                          child: Center(
+                            child: IconLoadingButton(
+                              color: AppColors.green,
+                              iconColor: Colors.white,
+                              valueColor: AppColors.green,
+                              errorColor: const Color(0xffe0333c),
+                              successColor: Colors.blue,
+                              elevation: 1,
+                              child: Text(
+                                'Sign Up',
+                                style: GoogleFonts.openSans().copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              iconData: Icons.app_registration,
+                              onPressed: () {
+                                //print(_phoneController.text);
+                                if (_emailcontroller.text.isNotEmpty &&
+                                    _usernameController.text.isNotEmpty &&
+                                    _passwordcontroller.text.isNotEmpty &&
+                                    _confirmController.text.isNotEmpty &&
+                                    _surnamecontroller.text.isNotEmpty &&
+                                    _othercontroller.text.isNotEmpty) {
+                                  if (_phoneController.text.length > 9) {
+                                    if (_passwordcontroller.text ==
+                                        _confirmController.text) {
+                                      _signUpUser(
+                                          _emailcontroller.text,
+                                          _usernameController.text,
+                                          _phoneController.text,
+                                          _passwordcontroller.text,
+                                          _confirmController.text,
+                                          _surnamecontroller.text,
+                                          _othercontroller.text);
+                                    } else {
+                                      _loadingBtnController.reset();
+                                      _showSnackBar(
+                                          "Passwords don't match",
+                                          Colors.amber,
+                                          Icons.info,
+                                          Colors.black,
+                                          Colors.black);
+                                    }
+                                  } else {
+                                    _loadingBtnController.reset();
+                                    _showSnackBar(
+                                        "Wrong phone number format",
+                                        Colors.red,
+                                        Icons.error,
+                                        Colors.white,
+                                        Colors.white);
+                                  }
+                                } else {
+                                  _loadingBtnController.reset();
+                                  _showSnackBar(
+                                      "All fields are required",
+                                      Colors.red,
+                                      Icons.error,
+                                      Colors.white,
+                                      Colors.white);
+                                }
+                              },
+                              successIcon: Icons.check_circle_outline,
+                              controller: _loadingBtnController,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),*/
           ),
-        ),
-      ),
     );
   }
 

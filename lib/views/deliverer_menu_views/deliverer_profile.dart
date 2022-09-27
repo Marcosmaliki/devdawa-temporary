@@ -196,10 +196,37 @@ class _DelivererProfileState extends State<DelivererProfile> {
                         Padding(
                           padding:
                               EdgeInsets.only(top: 15, left: 10, right: 10),
-                          child: TextButton(
-                            style: TextButton.styleFrom(
-                              backgroundColor: AppColors.green,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                PageTransition(
+                                    type: PageTransitionType.rightToLeft,
+                                    child: EditProfile(
+                                      name: data[0]["surname"],
+                                      other: data[0]["othernames"],
+                                      id_no: data[0]["idNo"].toString(),
+                                      email: data[0]["email"],
+                                      phone: data[0]["phone"],
+                                    ),
+                                    inheritTheme: true,
+                                    ctx: context),
+                              );
+                            },
+                            child: Container(
+                              height: 35,
+                              width: 150,
+                              color: AppColors.green,
+                              child: Center(
+                                child: Text("Edit"),
+                              ),
                             ),
+                          ),
+                        ),
+                        /*Padding(
+                          padding:
+                              EdgeInsets.only(top: 15, left: 10, right: 10),
+                          child: FlatButton(
                             child: Text("Edit"),
                             onPressed: () {
                               Navigator.push(
@@ -217,8 +244,9 @@ class _DelivererProfileState extends State<DelivererProfile> {
                                     ctx: context),
                               );
                             },
+                            color: AppColors.green,
                           ),
-                        ),
+                        ),*/
                       ],
                     ),
                   ),

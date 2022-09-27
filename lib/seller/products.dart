@@ -429,29 +429,31 @@ class _BusinessProductsState extends State<BusinessProducts> {
             const SizedBox(
               height: 5,
             ),
-            Container(
-              height: 45,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  color: AppColors.green,
-                  borderRadius: BorderRadius.circular(5)),
-              child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.rightToLeft,
-                          child: EditProduct(
-                            user: widget.user,
-                            token: widget.token,
-                            business_id: widget.business_id,
-                            product: product,
-                          ),
-                          inheritTheme: true,
-                          ctx: context),
-                    );
-                  },
-                  child: Text("Edit product")),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.rightToLeft,
+                      child: EditProduct(
+                        user: widget.user,
+                        token: widget.token,
+                        business_id: widget.business_id,
+                        product: product,
+                      ),
+                      inheritTheme: true,
+                      ctx: context),
+                );
+              },
+              child: Container(
+                  height: 45,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      color: AppColors.green,
+                      borderRadius: BorderRadius.circular(5)),
+                  child: Center(
+                    child: Text("Edit product"),
+                  )),
             )
           ],
         ),

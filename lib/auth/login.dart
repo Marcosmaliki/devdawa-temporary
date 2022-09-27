@@ -334,305 +334,233 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Stack(
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/login_mobile.jpg"),
-                    fit: BoxFit.cover,
-                  ),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        margin: EdgeInsets.only(left: 10, right: 10),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  "assets/icons/pharmacy.png",
+                  height: 80,
+                  width: 80,
                 ),
-              ),
-              Positioned(
-                top: 0,
-                child: Opacity(
-                  opacity: 0.7,
-                  child: Container(
-                    height: 350,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(colors: [
-                      /*AppColors.pink,
-                        Colors.pinkAccent,
-                        Colors.deepOrange*/
-                      AppColors.green,
-                      Colors.greenAccent,
-                      Colors.green.shade900
-                    ])),
-                    child: Center(
-                      child: Container(
-                        height: 130,
-                        width: 130,
-                        decoration:
-                            const BoxDecoration(color: Colors.transparent),
-                        child: Column(
-                          children: [
-                            Image.asset(
-                              "assets/icons/pharmacy.png",
-                              height: 80,
-                              width: 80,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "Dawasap",
-                              style: GoogleFonts.openSans().copyWith(
-                                  color: AppColors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 25),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "Please Login",
+                  style: GoogleFonts.openSans().copyWith(
+                      fontWeight: FontWeight.w600,
+                      //color: Colors.white,
+                      fontSize: 25),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Text(
+                  "Type registered email address below",
+                  style: GoogleFonts.openSans()
+                      .copyWith(color: Colors.grey[400], fontSize: 13),
+                ),
+                TextField(
+                  textInputAction: TextInputAction.next,
+                  controller: _emailcontroller,
+                  onChanged: (email) {
+                    if (_isValidEmail(email)) {
+                      setState(() {
+                        _email_valid = true;
+                      });
+                    } else {
+                      setState(() {
+                        _email_valid = false;
+                      });
+                    }
+                  },
+                  decoration: InputDecoration(
+                      hintText: 'Email address',
+                      prefixIcon: Icon(
+                        Icons.alternate_email,
+                        color: AppColors.green,
+                      ),
+                      suffixIcon: !_email_valid
+                          ? Icon(
+                              Icons.close,
+                              color: Colors.grey[600],
                             )
-                          ],
+                          : Icon(
+                              Icons.done,
+                              color: AppColors.green,
+                            )),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Text(
+                  "Enter your password below",
+                  style: GoogleFonts.openSans()
+                      .copyWith(color: Colors.grey[400], fontSize: 13),
+                ),
+                TextField(
+                  textInputAction: TextInputAction.done,
+                  controller: _passwordcontroller,
+                  obscureText: _obscureText,
+                  decoration: InputDecoration(
+                      hintText: 'Password',
+                      prefixIcon: Icon(
+                        Icons.lock_open,
+                        color: AppColors.green,
+                      ),
+                      suffixIcon: _obscureText
+                          ? GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _obscureText = false;
+                                });
+                              },
+                              child: Icon(
+                                Icons.visibility_off,
+                                color: Colors.grey[700],
+                              ),
+                            )
+                          : GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _obscureText = true;
+                                });
+                              },
+                              child: Icon(
+                                Icons.visibility,
+                                color: Colors.grey[700],
+                              ),
+                            )),
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                  SizedBox(
+                      height: 24.0,
+                      width: 24.0,
+                      child: Theme(
+                        data: ThemeData(
+                            unselectedWidgetColor:
+                                Color(0xff00C8E8) // Your color
+                            ),
+                        child: Checkbox(
+                            activeColor: AppColors.blue,
+                            value: true,
+                            onChanged: _handleRemeberme()),
+                      )),
+                  const SizedBox(width: 10.0),
+                  Text("Remember Me",
+                      style: GoogleFonts.openSans().copyWith(
+                          color: Color(0xff646464),
+                          fontSize: 14,
+                          fontFamily: 'Rubic')),
+                  Spacer(),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.rightToLeft,
+                            child: Forgot(),
+                            inheritTheme: true,
+                            ctx: context),
+                      );
+                    },
+                    child: Text("Forgot password?",
+                        style: GoogleFonts.openSans().copyWith(
+                            color: AppColors.pink,
+                            fontSize: 14,
+                            fontFamily: 'Rubic',
+                            decoration: TextDecoration.underline)),
+                  )
+                ]),
+                const SizedBox(
+                  height: 30,
+                ),
+                Container(
+                  height: 50,
+                  width: MediaQuery.of(context).size.width,
+                  child: Center(
+                    child: IconLoadingButton(
+                      color: AppColors.green,
+                      iconColor: Colors.white,
+                      valueColor: AppColors.green,
+                      errorColor: const Color(0xffe0333c),
+                      successColor: Colors.blue,
+                      elevation: 1,
+                      child: Text(
+                        'Login',
+                        style: GoogleFonts.openSans().copyWith(
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
                         ),
                       ),
+                      iconData: Icons.login,
+                      onPressed: () {
+                        if (_emailcontroller.text.isNotEmpty &&
+                            _passwordcontroller.text.isNotEmpty) {
+                          _loginUser(
+                              _emailcontroller.text, _passwordcontroller.text);
+                        } else {
+                          _loadingBtnController.reset();
+                          _showSnackBar(
+                              "All fields are mandatory",
+                              Colors.amber,
+                              Icons.warning,
+                              Colors.black,
+                              Colors.black);
+                        }
+                      },
+                      successIcon: Icons.check_circle_outline,
+                      controller: _loadingBtnController,
                     ),
                   ),
                 ),
-              ),
-              Positioned(
-                top: 300,
-                child: Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      color: AppColors.white,
-                      borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(20),
-                          topLeft: Radius.circular(20))),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 10, right: 10, top: 30, bottom: 10),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height,
-                      width: MediaQuery.of(context).size.width,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Please Login",
-                            /*style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 25),*/
-                            style: GoogleFonts.openSans().copyWith(
-                                fontWeight: FontWeight.w600,
-                                //color: Colors.white,
-                                fontSize: 25),
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                "Don't have an account yet?",
-                                style: GoogleFonts.openSans().copyWith(
-                                    color: Colors.grey[600], fontSize: 13),
-                              ),
-                              const SizedBox(
-                                width: 3,
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    PageTransition(
-                                        type: PageTransitionType.rightToLeft,
-                                        child: SignUp(),
-                                        inheritTheme: true,
-                                        ctx: context),
-                                  );
-                                },
-                                child: Text(
-                                  "Create one here",
-                                  style: GoogleFonts.openSans().copyWith(
-                                      color: Colors.green,
-                                      fontSize: 13,
-                                      decoration: TextDecoration.underline),
-                                ),
-                              )
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          Text(
-                            "Type registered email address below",
-                            style: GoogleFonts.openSans().copyWith(
-                                color: Colors.grey[400], fontSize: 13),
-                          ),
-                          TextField(
-                            textInputAction: TextInputAction.next,
-                            controller: _emailcontroller,
-                            onChanged: (email) {
-                              if (_isValidEmail(email)) {
-                                setState(() {
-                                  _email_valid = true;
-                                });
-                              } else {
-                                setState(() {
-                                  _email_valid = false;
-                                });
-                              }
-                            },
-                            decoration: InputDecoration(
-                                hintText: 'Email address',
-                                prefixIcon: Icon(
-                                  Icons.alternate_email,
-                                  color: AppColors.green,
-                                ),
-                                suffixIcon: !_email_valid
-                                    ? Icon(
-                                        Icons.close,
-                                        color: Colors.grey[600],
-                                      )
-                                    : Icon(
-                                        Icons.done,
-                                        color: AppColors.green,
-                                      )),
-                          ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          Text(
-                            "Enter your password below",
-                            style: GoogleFonts.openSans().copyWith(
-                                color: Colors.grey[400], fontSize: 13),
-                          ),
-                          TextField(
-                            textInputAction: TextInputAction.done,
-                            controller: _passwordcontroller,
-                            obscureText: _obscureText,
-                            decoration: InputDecoration(
-                                hintText: 'Password',
-                                prefixIcon: Icon(
-                                  Icons.lock_open,
-                                  color: AppColors.green,
-                                ),
-                                suffixIcon: _obscureText
-                                    ? GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            _obscureText = false;
-                                          });
-                                        },
-                                        child: Icon(
-                                          /*Icons.remove_red_eye,*/
-                                          Icons.visibility_off,
-                                          color: Colors.grey[700],
-                                        ),
-                                      )
-                                    : GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            _obscureText = true;
-                                          });
-                                        },
-                                        child: Icon(
-                                          /*Icons.remove_red_eye,*/
-                                          Icons.visibility,
-                                          color: Colors.grey[700],
-                                        ),
-                                      )),
-                          ),
-                          const SizedBox(
-                            height: 25,
-                          ),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                    height: 24.0,
-                                    width: 24.0,
-                                    child: Theme(
-                                      data: ThemeData(
-                                          unselectedWidgetColor:
-                                              Color(0xff00C8E8) // Your color
-                                          ),
-                                      child: Checkbox(
-                                          activeColor: AppColors.blue,
-                                          value: true,
-                                          onChanged: _handleRemeberme()),
-                                    )),
-                                const SizedBox(width: 10.0),
-                                Text("Remember Me",
-                                    style: GoogleFonts.openSans().copyWith(
-                                        color: Color(0xff646464),
-                                        fontSize: 14,
-                                        fontFamily: 'Rubic')),
-                                Spacer(),
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      PageTransition(
-                                          type: PageTransitionType.rightToLeft,
-                                          child: Forgot(),
-                                          inheritTheme: true,
-                                          ctx: context),
-                                    );
-                                  },
-                                  child: Text("Forgot password?",
-                                      style: GoogleFonts.openSans().copyWith(
-                                          color: AppColors.pink,
-                                          fontSize: 14,
-                                          fontFamily: 'Rubic',
-                                          decoration:
-                                              TextDecoration.underline)),
-                                )
-                              ]),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          Container(
-                            height: 50,
-                            width: MediaQuery.of(context).size.width,
-                            child: Center(
-                              child: IconLoadingButton(
-                                color: AppColors.green,
-                                iconColor: Colors.white,
-                                valueColor: AppColors.green,
-                                errorColor: const Color(0xffe0333c),
-                                successColor: Colors.blue,
-                                elevation: 1,
-                                child: Text(
-                                  'Login',
-                                  style: GoogleFonts.openSans().copyWith(
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                iconData: Icons.login,
-                                onPressed: () {
-                                  if (_emailcontroller.text.isNotEmpty &&
-                                      _passwordcontroller.text.isNotEmpty) {
-                                    _loginUser(_emailcontroller.text,
-                                        _passwordcontroller.text);
-                                  } else {
-                                    _loadingBtnController.reset();
-                                    _showSnackBar(
-                                        "All fields are mandatory",
-                                        Colors.amber,
-                                        Icons.warning,
-                                        Colors.black,
-                                        Colors.black);
-                                  }
-                                },
-                                successIcon: Icons.check_circle_outline,
-                                controller: _loadingBtnController,
-                              ),
-                            ),
-                          ),
-                        ],
+                const SizedBox(
+                  height: 25,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Don't have an account yet?",
+                      style: GoogleFonts.openSans()
+                          .copyWith(color: Colors.grey[600], fontSize: 13),
+                    ),
+                    const SizedBox(
+                      width: 3,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: SignUp(),
+                              inheritTheme: true,
+                              ctx: context),
+                        );
+                      },
+                      child: Text(
+                        "Create one here",
+                        style: GoogleFonts.openSans().copyWith(
+                            color: Colors.green,
+                            fontSize: 13,
+                            decoration: TextDecoration.underline),
                       ),
-                    ),
-                  ),
+                    )
+                  ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -175,14 +175,27 @@ class _MainCartState extends State<MainCart> {
                                           fontWeight: FontWeight.w700,
                                           fontSize: 15),
                                     ),
-                                    TextButton(
-                                      style: TextButton.styleFrom(
-                                        backgroundColor: AppColors.red,
-                                      ),
+
+                                    /*FlatButton(
+                                      color: AppColors.red,
                                       child: Text("Remove"),
                                       onPressed: () {
                                         _removeItem(id.toString());
                                       },
+                                    ),*/
+
+                                    GestureDetector(
+                                      onTap: () {
+                                        _removeItem(id.toString());
+                                      },
+                                      child: Container(
+                                        height: 28,
+                                        width: 70,
+                                        color: AppColors.red,
+                                        child: Center(
+                                          child: Text("Remove"),
+                                        ),
+                                      ),
                                     )
                                   ],
                                 ),
@@ -233,10 +246,8 @@ class _MainCartState extends State<MainCart> {
                                         ),
                                       ),
                                     ),
-                                    TextButton(
-                                      style: TextButton.styleFrom(
-                                        backgroundColor: AppColors.green_shade,
-                                      ),
+                                    /*FlatButton(
+                                      color: AppColors.green_shade,
                                       child: !_submitting_change
                                           ? Text("Submit Change")
                                           : Text("Processing..."),
@@ -255,6 +266,34 @@ class _MainCartState extends State<MainCart> {
                                               Colors.white);
                                         }
                                       },
+                                    ),*/
+
+                                    GestureDetector(
+                                      onTap: () {
+                                        if (_countController.text.isNotEmpty ||
+                                            !_submitting_change) {
+                                          _editItem(id.toString(),
+                                              _countController.text);
+                                        } else {
+                                          Navigator.pop(context);
+                                          _showSnackBar(
+                                              "Mandatory field missing",
+                                              Colors.red,
+                                              Icons.error,
+                                              Colors.white,
+                                              Colors.white);
+                                        }
+                                      },
+                                      child: Container(
+                                        height: 35,
+                                        width: 150,
+                                        color: AppColors.green_shade,
+                                        child: Center(
+                                          child: !_submitting_change
+                                              ? Text("Submit Change")
+                                              : Text("Processing..."),
+                                        ),
+                                      ),
                                     )
                                   ],
                                 ),
