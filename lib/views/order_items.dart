@@ -34,7 +34,7 @@ class _ViewOrderedState extends State<ViewOrdered> {
         base_client.base_url + "/order/items/${widget.order_id}/get",
         prefs.getString("token"));
 
-    //print(request_result);
+    print(request_result);
 
     if (request_result["status"] == "offline") {
       print("Offline");
@@ -43,6 +43,11 @@ class _ViewOrderedState extends State<ViewOrdered> {
         if (widget.items.length < 1) {
           setState(() {
             widget.items = request_result["data"]["data"]["data"];
+            _fetchitems = false;
+          });
+        } else {
+          setState(() {
+            //widget.items = request_result["data"]["data"]["data"];
             _fetchitems = false;
           });
         }

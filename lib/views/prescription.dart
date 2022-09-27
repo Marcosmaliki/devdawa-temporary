@@ -270,18 +270,22 @@ class _PrescriptionState extends State<Prescription> {
   _uploadPrecFile(image) async {
     try {
       FormData formData = new FormData.fromMap({
-        "file": await MultipartFile.fromFile(presc_file!.path,
+        "images": await MultipartFile.fromFile(presc_file!.path,
             filename: DateTime.now().millisecondsSinceEpoch.toString()),
       });
 
       Response response = await Dio().post(
           //"https://Dawasap-api.devsmart.co.ke/api/product/business/add/image",
-          "https://api.dawasap.com/api/product/business/add/image",
+          "https://api.dawasap.com/api/prescription/upload-files",
           data: formData);
 
-      _uploadClaimFile(response.toString());
+      if (claim_file != null) {
+        _uploadClaimFile(response.toString());
+      } else {
+        _uploadFullPrescription(response.toString(), "no data");
+      }
 
-      print(response);
+      print("Response is " + response.toString());
 
       /*if (response.data["success"]) {
       } else {}*/
@@ -296,13 +300,13 @@ class _PrescriptionState extends State<Prescription> {
   _uploadClaimFile(String presc_url) async {
     try {
       FormData formData = new FormData.fromMap({
-        "file": await MultipartFile.fromFile(claim_file!.path,
+        "images": await MultipartFile.fromFile(claim_file!.path,
             filename: DateTime.now().millisecondsSinceEpoch.toString()),
       });
 
       Response response = await Dio().post(
           //"https://Dawasap-api.devsmart.co.ke/api/product/business/add/image",
-          "https://api.dawasap.com/api/product/business/add/image",
+          "https://api.dawasap.com/api/prescription/upload-files",
           data: formData);
 
       _uploadFullPrescription(presc_url, response.toString());

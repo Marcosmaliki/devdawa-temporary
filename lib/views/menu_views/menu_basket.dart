@@ -69,25 +69,23 @@ class _MenuBasketState extends State<MenuBasket> {
             ? Container(
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
-                child: Expanded(
-                  child: ListView.builder(
-                    //physics: const AlwaysScrollableScrollPhysics(),
-                    itemCount: _orders.length,
-                    itemBuilder: (_, index) {
-                      return _orderItem(
-                          _orders[index]["discount"].toString(),
-                          _orders[index]["totalAmount"].toString(),
-                          _orders[index]["order_items"].length.toString(),
-                          _orders[index]["order_items"].length.toString(),
-                          _orders[index]["id"].toString(),
-                          _orders[index]["cartStatus"].toString(),
-                          _orders[index]["order_delivery"] == null
-                              ? "none"
-                              : _orders[index]["order_delivery"]["delivererId"]
-                                  .toString(),
-                          _orders[index]["order_items"]);
-                    },
-                  ),
+                child: ListView.builder(
+                  //physics: const AlwaysScrollableScrollPhysics(),
+                  itemCount: _orders.length,
+                  itemBuilder: (_, index) {
+                    return _orderItem(
+                        _orders[index]["discount"].toString(),
+                        _orders[index]["totalAmount"].toString(),
+                        _orders[index]["order_items"].length.toString(),
+                        _orders[index]["order_items"].length.toString(),
+                        _orders[index]["id"].toString(),
+                        _orders[index]["cartStatus"].toString(),
+                        _orders[index]["order_delivery"] == null
+                            ? "none"
+                            : _orders[index]["order_delivery"]["delivererId"]
+                                .toString(),
+                        _orders[index]["order_items"]);
+                  },
                 ),
               )
             : Container(
