@@ -123,59 +123,59 @@ class _SellerHomeState extends State<SellerHome> {
                   }
                 },
                 itemBuilder: (context) => [
-                      PopupMenuItem(
-                          value: 1,
-                          child: Row(
-                            children: const <Widget>[
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(2, 2, 8, 2),
-                                child: Icon(
-                                  Icons.exit_to_app,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              Text('Logout')
-                            ],
-                          )),
-                    ]),
+                  PopupMenuItem(
+                      value: 1,
+                      child: Row(
+                        children: const <Widget>[
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(2, 2, 8, 2),
+                            child: Icon(
+                              Icons.exit_to_app,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text('Logout')
+                        ],
+                      )),
+                ]),
           ],
         ),
         body: _fetching_business
             ? Container(
-                child: const Center(
-                  child: CircularProgressIndicator(),
-                ),
-              )
+          child: const Center(
+            child: CircularProgressIndicator(),
+          ),
+        )
             : businesses.length > 0
-                ? Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                    child: Container(
-                        height: MediaQuery.of(context).size.height,
-                        width: MediaQuery.of(context).size.width,
-                        child: ListView.builder(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          itemCount: businesses.length,
-                          itemBuilder: (_, index) {
-                            return _businessItem(
-                              businesses[index]["businessName"],
-                              businesses[index]["regNo"],
-                              businesses[index]["type"],
-                              businesses[index]["business_rating"] == null
-                                  ? "0"
-                                  : businesses[index]["business_rating"]
-                                      .toString(),
-                              businesses[index]["id"],
-                            );
-                          },
-                        )),
-                  )
-                : Container(
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
-                    child: Center(
-                      child: Text("No businesses"),
-                    ),
-                  ),
+            ? Padding(
+          padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+          child: Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: ListView.builder(
+                physics: const AlwaysScrollableScrollPhysics(),
+                itemCount: businesses.length,
+                itemBuilder: (_, index) {
+                  return _businessItem(
+                    businesses[index]["businessName"],
+                    businesses[index]["regNo"],
+                    businesses[index]["type"],
+                    businesses[index]["business_rating"] == null
+                        ? "0"
+                        : businesses[index]["business_rating"]
+                        .toString(),
+                    businesses[index]["id"],
+                  );
+                },
+              )),
+        )
+            : Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: Center(
+            child: Text("No businesses"),
+          ),
+        ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {
@@ -219,7 +219,7 @@ class _SellerHomeState extends State<SellerHome> {
                     Text(
                       name,
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
                     )
                   ],
                 ),
@@ -232,7 +232,7 @@ class _SellerHomeState extends State<SellerHome> {
                     Text(
                       reg,
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
                     )
                   ],
                 ),
@@ -245,7 +245,7 @@ class _SellerHomeState extends State<SellerHome> {
                     Text(
                       btype,
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
                     )
                   ],
                 ),
@@ -257,7 +257,7 @@ class _SellerHomeState extends State<SellerHome> {
                     const Text(
                       "Rating: ",
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
                     ),
                     const Icon(
                       Icons.star,

@@ -129,7 +129,7 @@ class _DelivererHomeState extends State<DelivererHome> {
                   }
                 },
                 itemBuilder: (context) => [
-                      /*PopupMenuItem(
+                  /*PopupMenuItem(
                           value: 1,
                           child: Row(
                             children: const <Widget>[
@@ -143,21 +143,21 @@ class _DelivererHomeState extends State<DelivererHome> {
                               Text('Submit prescription')
                             ],
                           )),*/
-                      PopupMenuItem(
-                          value: 1,
-                          child: Row(
-                            children: const <Widget>[
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(2, 2, 8, 2),
-                                child: Icon(
-                                  Icons.exit_to_app,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              Text('Logout')
-                            ],
-                          )),
-                    ]),
+                  PopupMenuItem(
+                      value: 1,
+                      child: Row(
+                        children: const <Widget>[
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(2, 2, 8, 2),
+                            child: Icon(
+                              Icons.exit_to_app,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text('Logout')
+                        ],
+                      )),
+                ]),
           ],
         ),
         body: menu_screens[_selectedIndex],
